@@ -43,7 +43,7 @@ func (c *Cache) Add(key string, value Value) {
 	if _, ok := c.cache[key]; ok {
 		oldValue, _ := c.Get(key)
 		c.nbytes += int64(value.Len()) - int64(oldValue.Len())
-		c.cache[key] = &list.Element{Value: value}
+		c.cache[key] = &list.Element{Value: &entry{key: key, value: value}}
 	} else {
 		element := c.ll.PushFront(&entry{key: key, value: value})
 		c.nbytes += int64(value.Len()) + int64(len(key))
