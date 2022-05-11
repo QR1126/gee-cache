@@ -40,10 +40,11 @@ func New(maxBytes int64, onEvicted func(string, Value)) *Cache {
 // Add adds a value to the cache.
 func (c *Cache) Add(key string, value Value) {
 	// some code goes here
-	if _, ok := c.cache[key]; ok {
-		oldValue, _ := c.Get(key)
-		c.nbytes += int64(value.Len()) - int64(oldValue.Len())
-		c.cache[key] = &list.Element{Value: &entry{key: key, value: value}}
+	if element, ok := c.cache[key]; ok {
+		c.ll.MoveToFront(element)
+		kv := element.Value.(*entry)
+		c.nbytes += int64(value.Len()) - int64(kv.value.Len())
+		kv.value = value
 	} else {
 		element := c.ll.PushFront(&entry{key: key, value: value})
 		c.nbytes += int64(value.Len()) + int64(len(key))
