@@ -18,15 +18,18 @@ type HTTPPool struct {
 
 // NewHTTPPool initializes an HTTP pool of peers.
 func NewHTTPPool(self string) *HTTPPool {
-	return &HTTPPool{
+	// some code goes here
+	httpPool := HTTPPool{
 		self:     self,
 		basePath: defaultBasePath,
 	}
+	return &httpPool
 }
 
 // Log info with server name
 func (p *HTTPPool) Log(format string, v ...interface{}) {
-	log.Printf("[Server %s] %s", p.self, fmt.Sprintf(format, v...))
+	// some code goes here
+	log.Printf("[Server %s] %s\n", p.self, fmt.Sprintf(format, v...))
 }
 
 // ServeHTTP handle all http requests
